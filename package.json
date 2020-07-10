@@ -1,0 +1,22 @@
+{
+  "name": "node-express",
+  "version": "0.0.1",
+  "description": "express-refs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon index"
+  },
+  "author": "Whiteman1989",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-handlebars": "^4.0.4",
+    "mongoose": "^5.9.22",
+    "uuid": "^8.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.14",
+    "nodemon": "^2.0.4"
+  }
+}
