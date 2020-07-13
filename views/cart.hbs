@@ -2,14 +2,14 @@
 <div id="cart">
     {{#if courses.length}}
         <table>
-            <head>
+            <thead>
                 <tr>
                     <th>Cours name</th>
                     <th>Count</th>
                     <th>Actions</th>
                 </tr>
-            </head>
-            <body>
+            </thead>
+            <tbody>
                 {{#each courses}}
                     <tr>
                         <td>{{title}}</td>
@@ -19,7 +19,7 @@
                         </td>
                     </tr>
                 {{/each}}
-            </body>
+            </tbody>
         </table>
         <p><strong>Price:</strong> <span class="price">{{price}}</span></p>
     {{else}}

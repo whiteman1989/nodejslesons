@@ -1,4 +1,5 @@
 const {Schema, model} = require('mongoose');
+//const {delete} = require('../routes/add');
 
 const course = new Schema({
     title: {
@@ -14,6 +15,15 @@ const course = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     }
+})
+
+course.method('toClient', function(){
+    const course = this.toObject();
+
+    course.id = course._id;
+    delete course._id;
+
+    return course;
 })
 
 module.exports = model('Course', course);

@@ -15,7 +15,7 @@ const multiplemongooseToObjs = (arrayOfMongooseDocuments) => {
             tempArray.push(doc.toObject());
         });
     }
-    console.log(tempArray);
+    // console.log(tempArray);
     return tempArray;
 }
 
