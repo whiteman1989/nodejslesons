@@ -6,6 +6,9 @@ const userSchema = new Schema({
         required: true
     },
     name: {
+        type: String
+    },
+    password: {
         type: String,
         required: true
     },
@@ -62,6 +65,11 @@ userSchema.methods.removeFromCart = function(id){
     }
 
     this.cart = {items};
+    return this.save();
+}
+
+userSchema.methods.clearCart = function() {
+    this.cart = {itams: []}
     return this.save();
 }
 

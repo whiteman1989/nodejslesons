@@ -10,8 +10,10 @@
   "author": "Whiteman1989",
   "license": "ISC",
   "dependencies": {
+    "connect-mongodb-session": "^2.4.1",
     "express": "^4.17.1",
     "express-handlebars": "^4.0.4",
+    "express-session": "^1.17.1",
     "mongoose": "^5.9.22",
     "uuid": "^8.2.0"
   },
