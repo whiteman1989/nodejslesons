@@ -28,7 +28,7 @@ router.get('/', auth, async (req, res) =>{
             }
         })
 
-        console.log(newOrders[0].date);
+        //console.log(newOrders[0].date);
             
         res.render('orders', {
             isOrders: true,

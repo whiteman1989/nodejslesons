@@ -1,24 +1,45 @@
 const {Router} = require('express');
+const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 const router = Router();
 
 router.get('/login', async (req, res) => {
     res.render('auth/login', {
         title: 'Login',
-        isLogin: true
+        isLogin: true,
+        error: req.flash('error')
     })
 })
 
 router.post('/login', async(req, res) =>{
-    const user = await User.findById('5f0b53aed4d3294870b181df');
-    req.session.user = user;
-    req.session.isAuthentificated = true;
-    req.session.save(err => {
-        if (err) {
-            throw err;
+    try {
+        const {email, password} = req.body;
+        const candidate = await User.findOne({email});
+
+        if (candidate) {
+            const areSame = await bcrypt.compare(password, candidate.password);
+            if (areSame) {
+                const user = candidate;
+                req.session.user = user;
+                req.session.isAuthentificated = true;
+                req.session.save(err => {
+                    if (err) {
+                        throw err;
+                    }
+                    res.redirect('/');
+                })
+            } else {
+                res.redirect('/auth/login#login');
+            }
+        } else {
+            req.flash('error', 'This user does not exeist');
+            res.redirect('/auth/login#login');
         }
-        res.redirect('/');
-    })
+    } catch (e) {
+        console.log(e);
+    }
+
+
 })
 
 router.get('/logout', async (req, res) => {
@@ -33,10 +54,12 @@ router.post('/register', async (req, res)=> {
         const candidate = await User.findOne({email});
 
         if (candidate) {
+            req.flash('error', 'User with this email already exist');
             res.redirect('/auth/login#register');
         } else {
+            const hashPassword = await bcrypt.hash(password, 10)
             const user = new User ({
-                email, name, password, cart: {items: []}
+                email, name, password: hashPassword, cart: {items: []}
             })
             await user.save();
             res.redirect('/auth/login#login');
