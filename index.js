@@ -13,23 +13,22 @@ const aboutRoutes = require('./routes/about');
 const cartRouters = require('./routes/cart');
 const orderRoutes = require('./routes/orders');
 const authRoutes = require('./routes/auth');
-//const { Mongoose } = require('mongoose');
-//const { url } = require('inspector');
-//const User = require('./models/user');
 const varMiddleware = require('./middleware/variables');
 const userMiddleware = require('./middleware/user');
+const keys = require('./keys');
 
-const pass= 'kZ790wRXUAwj2GYZ';
-const mongoUrl= `mongodb+srv://whiteman1989:${pass}@cluster0.h8pme.mongodb.net/shop`;
+// const pass= 'kZ790wRXUAwj2GYZ';
+// const mongoUrl= `mongodb+srv://whiteman1989:${pass}@cluster0.h8pme.mongodb.net/shop`;
 const app = express();
 const PORT = process.env.PORT || 3000;
 const hbs = exphbs.create({
     defoultLayout: 'main',
-    extname:'hbs'
+    extname:'hbs',
+    helpers: require('./utils/hbs-helpers')
 })
 const store =  new MongoStore({
     collection: 'sessions',
-    uri: mongoUrl
+    uri: keys.MONGODB_URI
 });
 
 app.engine('hbs', hbs.engine);
@@ -51,7 +50,7 @@ app.set('views', 'views');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({extended: true}));
 app.use(session({
-    secret: 'some secret value',
+    secret: keys.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store: store
@@ -73,7 +72,7 @@ app.use('/auth', authRoutes);
 
 async function start() {
     try {
-            await mongoose.connect(mongoUrl, {
+            await mongoose.connect(keys.MONGODB_URI, {
                 useUnifiedTopology: true,
                 useNewUrlParser: true,
                 useFindAndModify: false
